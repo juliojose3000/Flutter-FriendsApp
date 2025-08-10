@@ -46,4 +46,35 @@ class DummyData {
     posts.add(myPost);
     
   }
+
+  static Post getDummyPost() {
+    const postAuthorName = 'Andre Bizzotto';
+    const postAuthorUsername = '@biz84';
+    const postContent =
+        'Did you know?\n\nWhen you call `MediaQuery.of(context)` inside a build method, the widget will rebuild when *any* of the MediaQuery properties change. \n\nBut there is a better way that lets you depend only on the properties you care about (and minimize unnecesaary rebuilds)';
+    final postImages = ['assets/media-query-banner.jpg'];
+    const postAuthorPhoto = 'assets/andrea-avatar.png';
+    final postCreatedAt = DateTime(2024, 6, 15, 10, 21);
+
+    final postComments = List<Comment>.generate(
+        12, (index) => Comment(id: index + 1, text: 'Comment #${index + 1}', createdAt: DateTime.now(), authorName: 'User${index + 1}'));
+    
+    final postReactions =
+        List<Reaction>.generate(997, (index) => Reaction(id: index + 1, type: 'Like', createdAt: DateTime.now()));
+
+    return Post(
+      id: 'post-12345',
+      userphoto: postAuthorPhoto,
+      name: postAuthorName,
+      username: postAuthorUsername,
+      content: postContent,
+      contentImages: postImages,
+      createdAt: postCreatedAt,
+      comments: postComments,
+      reactions: postReactions,
+    );
+  }
+
+
+
 }
