@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twitter_embed_card/domain/models/comment.dart';
 import 'package:twitter_embed_card/domain/models/post.dart';
 import 'package:twitter_embed_card/presentation/widgets/svg_label.dart';
-import 'package:vector_graphics/vector_graphics_compat.dart'; // Add this import
 import 'package:intl/intl.dart'; // Add this import
 
 class PostWidget extends StatelessWidget {
