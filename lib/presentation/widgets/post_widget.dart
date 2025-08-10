@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:twitter_embed_card/domain/models/comment.dart';
+import 'package:twitter_embed_card/domain/models/post.dart';
 import 'package:twitter_embed_card/presentation/widgets/svg_label.dart';
 import 'package:vector_graphics/vector_graphics_compat.dart'; // Add this import
+import 'package:intl/intl.dart'; // Add this import
 
 class PostWidget extends StatelessWidget {
-  const PostWidget({super.key});
+
+  final Post post;
+
+  const PostWidget({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
         width: double.infinity,
         child: Card(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PostHeader(),
-                SizedBox(height: 10),
-                PostContent(),
-                SizedBox(height: 20),
-                PostTimeInfo(),
-                SizedBox(height: 10),
-                PostDivider(),
-                SizedBox(height: 10),
-                PostActionButtons(),
-                SizedBox(height: 10),
-                PostReadRepliesButton()
+                PostHeader(post: post,),
+                const SizedBox(height: 10),
+                PostContent(post: post,),
+                const SizedBox(height: 20),
+                PostTimeInfo(post: post,),
+                const SizedBox(height: 10),
+                const PostDivider(),
+                const SizedBox(height: 10),
+                const PostActionButtons(),
+                const SizedBox(height: 10),
+                PostReadRepliesButton(comments: post.comments,)
               ],
             ),
           ),
@@ -35,27 +41,30 @@ class PostWidget extends StatelessWidget {
 }
 
 class PostHeader extends StatelessWidget {
-  const PostHeader({super.key});
+
+  final Post post;
+
+  const PostHeader({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         CircleAvatar(
-          backgroundImage: AssetImage('assets/andrea-avatar.png'),
+          backgroundImage: AssetImage(post.userphoto),
           radius: 30,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Column(
           children: [
-            Text('Andre Bizzotto',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(post.name,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             Row(children: [
-              Text('@biz84', style: TextStyle(color: Colors.black54)),
-              SizedBox(width: 5),
-              Text('·', style: TextStyle(color: Colors.grey)),
-              SizedBox(width: 5),
-              Text("Follow",
+              Text(post.username, style: const TextStyle(color: Colors.black54)),
+              const SizedBox(width: 5),
+              const Text('·', style: TextStyle(color: Colors.grey)),
+              const SizedBox(width: 5),
+              const Text("Follow",
                   style: TextStyle(
                       color: Colors.blue, fontWeight: FontWeight.bold)),
             ])
@@ -67,20 +76,21 @@ class PostHeader extends StatelessWidget {
 }
 
 class PostContent extends StatelessWidget {
-  const PostContent({super.key});
+
+  final Post post;
+
+  const PostContent({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-            'Did you know? \n\nWhen you call `MediaQuery.of(context)` inside a build method, the widget will rebuild when *any* of the MediaQuery properties change. \n\nBut there is a better way that lets you depend only on the properties you care about (and minimize unnecesaary rebuilds)'),
+        Text(post.content),
         const SizedBox(height: 20),
         ClipRRect(
           borderRadius: BorderRadius.circular(12), // radius of corners
-          child: Image.asset(
-            'assets/media-query-banner.jpg',
+          child: Image.asset(post.contentImages[0],
             fit: BoxFit.cover, // keep aspect ratio while filling
           ),
         )
@@ -90,17 +100,23 @@ class PostContent extends StatelessWidget {
 }
 
 class PostTimeInfo extends StatelessWidget {
-  const PostTimeInfo({super.key});
+
+  final Post post;
+
+  const PostTimeInfo({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+
+    final formattedDate = DateFormat('h:mm a · MMM d, yyyy').format(post.createdAt);
+
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("10:21 AM · Jun 15, 2024",
-            style: TextStyle(color: Colors.black54)),
-        SizedBox(width: 5),
-        Icon(Icons.info_outline, size: 24, color: Colors.black54)
+        Text(formattedDate, // Display date only
+            style: const TextStyle(color: Colors.black54)),
+        const SizedBox(width: 5),
+        const Icon(Icons.info_outline, size: 24, color: Colors.black54)
       ],
     );
   }
@@ -138,7 +154,10 @@ class PostActionButtons extends StatelessWidget {
 }
 
 class PostReadRepliesButton extends StatelessWidget {
-  const PostReadRepliesButton({super.key});
+
+  final List<Comment> comments;
+
+  const PostReadRepliesButton({super.key, required this.comments});
 
   @override
   Widget build(BuildContext context) {
@@ -159,9 +178,9 @@ class PostReadRepliesButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: 24, vertical: 12), // Button padding
         ),
-        child: const Text(
-          'Read 12 replies',
-          style: TextStyle(color: Colors.blue),
+        child: Text(
+          'Read ${comments.length} replies',
+          style: const TextStyle(color: Colors.blue),
         ),
       ),
     );

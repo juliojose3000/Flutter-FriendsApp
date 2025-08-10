@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_embed_card/data/dummy/dummy_data.dart';
 import 'package:twitter_embed_card/presentation/widgets/post_widget.dart';
 
 class MainScreen extends StatelessWidget {
@@ -10,12 +11,12 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Main Screen'),
         ),
-        body: const Column(
+        body: Column(
           children: [
             Row(
               children: [
                 Expanded(
-                  child: PostWidget(),
+                  child: PostWidget(post: DummyData.posts[0]),
                 ),
               ],
             )
