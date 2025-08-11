@@ -5,7 +5,6 @@ import 'package:twitter_embed_card/presentation/widgets/svg_label.dart';
 import 'package:intl/intl.dart'; // Add this import
 
 class PostWidget extends StatelessWidget {
-
   final Post post;
 
   const PostWidget({super.key, required this.post});
@@ -34,7 +33,7 @@ class PostWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 const PostDivider(),
                 const SizedBox(height: 10),
-                const PostActionButtons(),
+                PostActionButtons(),
                 const SizedBox(height: 10),
                 PostReadRepliesButton(
                   comments: post.comments,
@@ -162,10 +161,38 @@ class PostActionButtons extends StatelessWidget {
   }
 }
 
-class PostReadRepliesButton extends StatelessWidget {
+class PostReadRepliesButton extends StatefulWidget {
   final List<Comment> comments;
 
   const PostReadRepliesButton({super.key, required this.comments});
+
+  @override
+  _PostReadRepliesButtonState createState() => _PostReadRepliesButtonState();
+}
+
+class _PostReadRepliesButtonState extends State<PostReadRepliesButton> {
+  final List<Comment> _comments;
+
+  _PostReadRepliesButtonState() : _comments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _comments.addAll(widget.comments);
+  }
+
+  // A method to handle adding a new comment.
+  void _addComment() {
+    // Calling setState() is crucial. It tells Flutter that the state has
+    // changed and that the UI needs to be rebuilt to reflect the new state.
+    setState(() {
+      _comments.add(Comment(
+          text: 'New Comment!',
+          id: 50,
+          createdAt: DateTime.now(),
+          authorName: 'Charlie Graham'));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +200,7 @@ class PostReadRepliesButton extends StatelessWidget {
       width: double.infinity,
       child: OutlinedButton(
         onPressed: () {
-          // Your action here
+          _addComment();
         },
         style: OutlinedButton.styleFrom(
           shape: RoundedRectangleBorder(
@@ -187,7 +214,7 @@ class PostReadRepliesButton extends StatelessWidget {
               horizontal: 24, vertical: 12), // Button padding
         ),
         child: Text(
-          'Read ${comments.length} replies',
+          'Read ${_comments.length} replies',
           style: const TextStyle(color: Colors.blue),
         ),
       ),
