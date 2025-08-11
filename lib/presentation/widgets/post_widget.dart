@@ -20,17 +20,25 @@ class PostWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PostHeader(post: post,),
+                PostHeader(
+                  post: post,
+                ),
                 const SizedBox(height: 10),
-                PostContent(post: post,),
+                PostContent(
+                  post: post,
+                ),
                 const SizedBox(height: 20),
-                PostTimeInfo(post: post,),
+                PostTimeInfo(
+                  post: post,
+                ),
                 const SizedBox(height: 10),
                 const PostDivider(),
                 const SizedBox(height: 10),
                 const PostActionButtons(),
                 const SizedBox(height: 10),
-                PostReadRepliesButton(comments: post.comments,)
+                PostReadRepliesButton(
+                  comments: post.comments,
+                )
               ],
             ),
           ),
@@ -39,7 +47,6 @@ class PostWidget extends StatelessWidget {
 }
 
 class PostHeader extends StatelessWidget {
-
   final Post post;
 
   const PostHeader({super.key, required this.post});
@@ -58,7 +65,8 @@ class PostHeader extends StatelessWidget {
             Text(post.name,
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             Row(children: [
-              Text(post.username, style: const TextStyle(color: Colors.black54)),
+              Text(post.username,
+                  style: const TextStyle(color: Colors.black54)),
               const SizedBox(width: 5),
               const Text('·', style: TextStyle(color: Colors.grey)),
               const SizedBox(width: 5),
@@ -74,7 +82,6 @@ class PostHeader extends StatelessWidget {
 }
 
 class PostContent extends StatelessWidget {
-
   final Post post;
 
   const PostContent({super.key, required this.post});
@@ -88,7 +95,8 @@ class PostContent extends StatelessWidget {
         const SizedBox(height: 20),
         ClipRRect(
           borderRadius: BorderRadius.circular(12), // radius of corners
-          child: Image.asset(post.contentImages[0],
+          child: Image.asset(
+            post.contentImages[0],
             fit: BoxFit.cover, // keep aspect ratio while filling
           ),
         )
@@ -98,15 +106,14 @@ class PostContent extends StatelessWidget {
 }
 
 class PostTimeInfo extends StatelessWidget {
-
   final Post post;
 
   const PostTimeInfo({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-
-    final formattedDate = DateFormat('h:mm a · MMM d, yyyy').format(post.createdAt);
+    final formattedDate =
+        DateFormat('h:mm a · MMM d, yyyy').format(post.createdAt);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,15 +151,18 @@ class PostActionButtons extends StatelessWidget {
       children: [
         SvgLabel(
             assetName: 'icon_heart_red.svg', text: '997', color: Colors.red),
-        SvgLabel(assetName: 'icon_comment.svg', text: 'Reply', color: Colors.blue),
-        SvgLabel(assetName: 'icon_link.svg', text: 'Copy link', color: Colors.black38),
+        SvgLabel(
+            assetName: 'icon_comment.svg', text: 'Reply', color: Colors.blue),
+        SvgLabel(
+            assetName: 'icon_link.svg',
+            text: 'Copy link',
+            color: Colors.black38),
       ],
     );
   }
 }
 
 class PostReadRepliesButton extends StatelessWidget {
-
   final List<Comment> comments;
 
   const PostReadRepliesButton({super.key, required this.comments});
