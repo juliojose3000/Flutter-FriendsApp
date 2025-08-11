@@ -30,6 +30,8 @@ class PostsDao {
   Future<List<Post>> getPosts() async {
     final db = await LocalDatabase.getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('post');
+
+    await Future.delayed(const Duration(seconds: 3));
     
     // Now using the fromMap factory constructor to correctly deserialize the data.
     return List.generate(maps.length, (i) {

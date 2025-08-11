@@ -25,11 +25,8 @@ void main() async {
   // Populate the database with the dummy data
   await postsDao.populateWithDummyData(dummyPosts);
   
-  // Retrieve the posts from the database
-  final retrievedPosts = await postsDao.getPosts();
-  
   runZonedGuarded(() {
-    runApp(MainApp(posts: retrievedPosts));
+    runApp(const MainApp());
   }, (error, stackTrace) {
     // Handle uncaught asynchronous errors here
     print('Caught Dart error: $error');
@@ -40,21 +37,19 @@ void main() async {
 
 class MainApp extends StatelessWidget {
 
-  final List<Post> posts;
-
-  const MainApp({super.key, required this.posts});
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Center(
             child: SizedBox(
               width: 600, // max allowed width
-              child: TwitterEmbedCard(posts: posts),
+              child: TwitterEmbedCard(),
             ),
           ),
         ),
@@ -65,9 +60,7 @@ class MainApp extends StatelessWidget {
 
 class TwitterEmbedCard extends StatelessWidget {
 
-  final List<Post> posts;
-
-  const TwitterEmbedCard({super.key, required this.posts});
+  const TwitterEmbedCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +69,7 @@ class TwitterEmbedCard extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(posts: posts),
+      home: const MainScreen(),
     );
   }
 }
