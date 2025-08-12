@@ -60,7 +60,7 @@ class DummyData {
         12, (index) => Comment(id: index + 1, text: 'Comment #${index + 1}', createdAt: DateTime.now(), authorName: 'User${index + 1}'));
     
     final postReactions =
-        List<Reaction>.generate(997, (index) => Reaction(id: index + 1, type: 'Like', createdAt: DateTime.now()));
+        List<Reaction>.generate(521, (index) => Reaction(id: index + 1, type: 'Like', createdAt: DateTime.now()));
 
     return Post(
       id: 'post-12345',

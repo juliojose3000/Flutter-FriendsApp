@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_embed_card/domain/models/comment.dart';
 import 'package:twitter_embed_card/domain/models/post.dart';
+import 'package:twitter_embed_card/domain/models/reaction.dart';
 import 'package:twitter_embed_card/presentation/widgets/svg_label.dart';
 import 'package:intl/intl.dart'; // Add this import
 
@@ -33,7 +34,7 @@ class PostWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 const PostDivider(),
                 const SizedBox(height: 10),
-                PostActionButtons(),
+                PostActionButtons(reactions: post.reactions),
                 const SizedBox(height: 10),
                 PostReadRepliesButton(
                   comments: post.comments,
@@ -139,20 +140,35 @@ class PostDivider extends StatelessWidget {
   }
 }
 
-class PostActionButtons extends StatelessWidget {
-  const PostActionButtons({super.key});
+class PostActionButtons extends StatefulWidget {
+
+  final List<Reaction> reactions;
+
+  const PostActionButtons({super.key, required this.reactions});
+
+  @override
+  State<PostActionButtons> createState() => _PostActionButtonsState();
+}
+
+class _PostActionButtonsState extends State<PostActionButtons> {
+
+  void increaseReactionCount() {
+    setState(() {
+      widget.reactions.add(Reaction(id: widget.reactions.length + 1, type: 'Like', createdAt: DateTime.now()));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 20,
       children: [
-        SvgLabel(
-            assetName: 'icon_heart_red.svg', text: '997', color: Colors.red),
-        SvgLabel(
+        SvgLabelButton(
+            assetName: 'icon_heart_red.svg', text: '${widget.reactions.length}', color: Colors.red, onPressed: increaseReactionCount),
+        const SvgLabelButton(
             assetName: 'icon_comment.svg', text: 'Reply', color: Colors.blue),
-        SvgLabel(
+        const SvgLabelButton(
             assetName: 'icon_link.svg',
             text: 'Copy link',
             color: Colors.black38),
