@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twitter_embed_card/domain/models/comment.dart';
 import 'package:twitter_embed_card/domain/models/post.dart';
 import 'package:twitter_embed_card/domain/models/reaction.dart';
+import 'package:twitter_embed_card/presentation/screens/user_profile_screen.dart';
 import 'package:twitter_embed_card/presentation/widgets/svg_label.dart';
 import 'package:intl/intl.dart'; // Add this import
 
@@ -53,7 +54,13 @@ class PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => const UserProfileScreen(userId: "1",),
+        ));
+      }, 
+      child: Row(
       children: [
         CircleAvatar(
           backgroundImage: AssetImage(post.userphoto),
@@ -77,6 +84,7 @@ class PostHeader extends StatelessWidget {
           ],
         )
       ],
+    ),
     );
   }
 }
